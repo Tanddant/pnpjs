@@ -141,7 +141,7 @@ export class _SPCollection<GetType = any[]> extends _SPQueryable<GetType> {
      *
      * @param filter The string representing the filter query
      */
-    public filter<T = any>(filter: string | ComparisonResult<T> | ((f: QueryableFields<T>) => ComparisonResult<T>)): this {
+    public filter<T = UnwrapArray<GetType>>(filter: string | ComparisonResult<T> | ((f: QueryableFields<T>) => ComparisonResult<T>)): this {
         if (typeof filter === "object") {
             this.query.set("$filter", filter.toString());
             return this;
@@ -267,6 +267,7 @@ export const spPatch = <T = any>(o: ISPQueryable<any>, init?: RequestInit): Prom
 
 type KeysMatching<T, V> = { [K in keyof T]: T[K] extends V ? K : never }[keyof T];
 type KeysMatchingObjects<T> = { [K in keyof T]: T[K] extends object ? (T[K] extends Date ? never : K) : never }[keyof T];
+type UnwrapArray<T> = T extends (infer U)[] ? U : T;
 
 enum FilterOperation {
     Equals = "eq",
