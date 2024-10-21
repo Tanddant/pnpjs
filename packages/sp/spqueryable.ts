@@ -286,7 +286,7 @@ enum FilterJoinOperator {
     OrWithSpace = " or "
 }
 
-export class SPOData {
+class SPOData {
     public static Where<T = any>() {
         return new QueryableFields<T>([]);
     }
